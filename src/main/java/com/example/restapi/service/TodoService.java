@@ -2,6 +2,7 @@ package com.example.restapi.service;
 
 import com.example.restapi.dto.request.TodoCreateRequest;
 import com.example.restapi.dto.response.TodoResponse;
+import jakarta.validation.Valid;
 
 import java.util.List;
 
@@ -13,4 +14,6 @@ public interface TodoService {
     TodoResponse findById(Long id);
 
     void delete(Long id);
+
+    TodoResponse update(Long id, TodoCreateRequest request);
 }

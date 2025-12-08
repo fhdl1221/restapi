@@ -51,4 +51,14 @@ public class TodoServiceImpl implements TodoService {
         }
         todoRepository.deleteById(id);
     }
+
+    @Override
+    @Transactional
+    public TodoResponse update(Long id, TodoCreateRequest request){
+        Todo todo = todoRepository.findById(id)
+                .orElseThrow();
+
+        todo.update(request.getTitle(), request.getContent());
+        return TodoResponse.from(todo);
+    }
 }
