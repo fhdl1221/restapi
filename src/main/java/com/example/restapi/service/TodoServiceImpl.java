@@ -3,6 +3,8 @@ package com.example.restapi.service;
 import com.example.restapi.dto.request.TodoCreateRequest;
 import com.example.restapi.dto.response.TodoResponse;
 import com.example.restapi.entity.Todo;
+import com.example.restapi.exception.CustomException;
+import com.example.restapi.exception.ErrorCode;
 import com.example.restapi.repository.TodoRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -39,7 +41,7 @@ public class TodoServiceImpl implements TodoService {
     @Override
     public TodoResponse findById(Long id) {
         Todo todo = todoRepository.findById(id)
-                .orElseThrow();
+                .orElseThrow(() -> new CustomException(ErrorCode.TODO_NOT_FOUND));
         return TodoResponse.from(todo);
     }
 
@@ -47,7 +49,7 @@ public class TodoServiceImpl implements TodoService {
     @Transactional
     public void delete(Long id) {
         if(!todoRepository.existsById(id)){
-            throw new RuntimeException();
+            throw new CustomException(ErrorCode.TODO_NOT_FOUND);
         }
         todoRepository.deleteById(id);
     }
@@ -56,7 +58,7 @@ public class TodoServiceImpl implements TodoService {
     @Transactional
     public TodoResponse update(Long id, TodoCreateRequest request){
         Todo todo = todoRepository.findById(id)
-                .orElseThrow();
+                .orElseThrow(() -> new CustomException(ErrorCode.TODO_NOT_FOUND));
 
         todo.update(request.getTitle(), request.getContent());
         return TodoResponse.from(todo);
