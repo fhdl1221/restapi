@@ -5,6 +5,8 @@ import com.example.restapi.dto.response.TodoResponse;
 import com.example.restapi.service.TodoService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,11 +20,11 @@ public class TodoController {
     private final TodoService todoService;
 
     @PostMapping
-    public TodoResponse create(
+    public ResponseEntity<TodoResponse> create(
             @Valid @RequestBody TodoCreateRequest request
     ) {
         TodoResponse response = todoService.create(request);
-        return response;
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
 }
