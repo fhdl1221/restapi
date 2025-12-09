@@ -2,6 +2,7 @@ package com.example.restapi.service;
 
 import com.example.restapi.entity.User;
 import com.example.restapi.repository.UserRepository;
+import com.example.restapi.security.CustomUserDetails;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -19,6 +20,6 @@ public class CustomUserDetailsService implements UserDetailsService {
         User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException(username));
 
-
+        return new CustomUserDetails(user);
     }
 }
