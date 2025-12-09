@@ -27,7 +27,7 @@ public class AuthServiceImpl implements AuthService {
     @Transactional
     public UserResponse signUp(SignupRequest request) {
         // 중복 검사
-        if(userRepository.existsByUsername(request.getUsernmae())) {
+        if(userRepository.existsByUsername(request.getUsername())) {
             throw new CustomException(ErrorCode.DUPLICATE_USERNAME);
         }
 
@@ -35,14 +35,14 @@ public class AuthServiceImpl implements AuthService {
         String encodedPassword = passwordEncoder.encode(request.getPassword());
 
         User user = User.builder()
-                .username(request.getUsernmae())
+                .username(request.getUsername())
                 .password(encodedPassword)
                 .name(request.getName())
                 .email(request.getEmail())
                 .build();
 
         User saved =  userRepository.save(user);
-        return UserResponse.from(saved)
+        return UserResponse.from(saved);
     }
 
     @Override

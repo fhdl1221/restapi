@@ -12,7 +12,7 @@ public class SignupRequest {
 
     @NotBlank(message = "username은 필수입니다")
     @Size(min = 4, max = 20, message = "username 길이는 4~20입니다")
-    private String usernmae;
+    private String username;
 
     @NotBlank(message = "password는 필수입니다")
     private String password;
